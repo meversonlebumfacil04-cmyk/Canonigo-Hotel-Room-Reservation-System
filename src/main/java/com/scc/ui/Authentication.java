@@ -86,13 +86,19 @@ public class Authentication {
             System.out.println("\nLogin Successful!");
             System.out.println("Welcome, " + user.getUsername() + " | Role: " + user.getRole() + " | Status: " + user.getStatus());
 
-            runUserSession(user);
+            // Route user based on role
+            if ("System Administrator".equals(user.getRole())) {
+                AdminMenu adminMenu = new AdminMenu(userDao, scanner);
+                adminMenu.showMenu();
+            } else {
+                runStandardUserSession(user);
+            }
         } else {
             System.out.println("Invalid username or password.");
         }
     }
 
-    private void runUserSession(User user) {
+    private void runStandardUserSession(User user) {
         int sessionChoice;
         do {
             System.out.println("\n--- USER SESSION (" + user.getRole() + ") ---");
